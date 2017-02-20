@@ -25,7 +25,7 @@ export default class ToDoListView extends React.Component{
                     <Input
                         inputClass="todo-checkbox"
                         type="checkbox"
-                        onClick = {()=>this.doneItemList(item.id)}
+                        onClick = {()=>this.props.updateItemStatus(item._id)}
                     />
                     <Input
                         inputClass="todo-item"

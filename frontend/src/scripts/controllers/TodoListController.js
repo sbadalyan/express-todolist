@@ -12,6 +12,7 @@ export default class TodoListController extends React.Component {
         }
         this.deleteItem = this.deleteItem.bind(this);
         this.createItem = this.createItem.bind(this);
+        this.updateItemStatus = this.updateItemStatus.bind(this);
 	}
 	componentWillMount(){
 		this.loadItems();
@@ -32,7 +33,13 @@ export default class TodoListController extends React.Component {
 	}
 	deleteItem(itemId){
 		itemApiService.deleteItem(itemId).then((response)=>{
-			console.log('deleteItem');
+			this.loadItems();
+		});
+	}
+	updateItemStatus(itemId){
+		let status = {status: 'done'}
+		itemApiService.updateItem(itemId, status).then((response)=>{
+			console.log('updateItemStatus');
 			this.loadItems();
 		});
 	}
@@ -42,7 +49,8 @@ export default class TodoListController extends React.Component {
 				<TodoListView
 					todoItemList={this.state.todoItemList}	
 					deleteItem={this.deleteItem}	
-					createItem={this.createItem}			
+					createItem={this.createItem}
+					updateItemStatus={this.updateItemStatus}			
 				/>
 			</div>
 		);

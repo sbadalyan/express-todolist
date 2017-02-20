@@ -63,5 +63,12 @@ app.delete('/api/items/:id', function(req, res){
 		});
 	});
 });
+app.put('/api/items/:id', function(req, res){
+	console.log(req.params.id);
+	console.log( req.body.data, 'data');
+	res.json({
+			status:'ok'
+	});
+});
 
 app.listen(1111);

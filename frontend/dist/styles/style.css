@@ -13,6 +13,8 @@
       margin-top: 10px;
       display: flex;
       box-shadow: 0 0 3px #515151; }
+    .todo .todo-block:hover .delete-item {
+      fill: red; }
     .todo .todo-block .todo-item {
       border: none;
       flex: 20; }
@@ -24,10 +26,6 @@
       fill: "#000000";
       height: 16px;
       width: 16px; }
-  .todo .done-block {
-    margin: 50px 0px; }
-    .todo .done-block .done-label {
-      border-bottom: 2px solid red; }
 
 .input {
   padding: 5px; }

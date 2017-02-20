@@ -32740,6 +32740,7 @@
 			};
 			_this.deleteItem = _this.deleteItem.bind(_this);
 			_this.createItem = _this.createItem.bind(_this);
+			_this.updateItemStatus = _this.updateItemStatus.bind(_this);
 			return _this;
 		}
 
@@ -32775,8 +32776,18 @@
 				var _this4 = this;
 
 				_itemApiService2.default.deleteItem(itemId).then(function (response) {
-					console.log('deleteItem');
 					_this4.loadItems();
+				});
+			}
+		}, {
+			key: 'updateItemStatus',
+			value: function updateItemStatus(itemId) {
+				var _this5 = this;
+
+				var status = { status: 'done' };
+				_itemApiService2.default.updateItem(itemId, status).then(function (response) {
+					console.log('updateItemStatus');
+					_this5.loadItems();
 				});
 			}
 		}, {
@@ -32788,7 +32799,8 @@
 					_react2.default.createElement(_ToDoListView2.default, {
 						todoItemList: this.state.todoItemList,
 						deleteItem: this.deleteItem,
-						createItem: this.createItem
+						createItem: this.createItem,
+						updateItemStatus: this.updateItemStatus
 					})
 				);
 			}
@@ -32842,6 +32854,11 @@
 			key: 'deleteItem',
 			value: function deleteItem(itemId) {
 				return (0, _ajax2.default)().delete(_config2.default.url + '/api/items/' + itemId);
+			}
+		}, {
+			key: 'updateItem',
+			value: function updateItem(itemId, data) {
+				return (0, _ajax2.default)().put(_config2.default.url + '/api/items/' + itemId, data);
 			}
 		}]);
 
@@ -32930,7 +32947,7 @@
 	                        inputClass: 'todo-checkbox',
 	                        type: 'checkbox',
 	                        onClick: function onClick() {
-	                            return _this2.doneItemList(item.id);
+	                            return _this2.props.updateItemStatus(item._id);
 	                        }
 	                    }),
 	                    _react2.default.createElement(_Input2.default, {

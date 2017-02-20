@@ -13,6 +13,9 @@ class ItemApiService{
 	deleteItem(itemId){
 		return ajax().delete(`${config.url}/api/items/${itemId}`)
 	}
+	updateItem(itemId, data){
+		return ajax().put(`${config.url}/api/items/${itemId}`, data)
+	}
 }
 
 export default new ItemApiService();
