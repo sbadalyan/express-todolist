@@ -32658,9 +32658,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ToDoListView = __webpack_require__(242);
+	var _TodoListController = __webpack_require__(242);
 
-	var _ToDoListView2 = _interopRequireDefault(_ToDoListView);
+	var _TodoListController2 = _interopRequireDefault(_TodoListController);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32685,7 +32685,7 @@
 				return _react2.default.createElement(
 					'div',
 					null,
-					_react2.default.createElement(_ToDoListView2.default, null)
+					_react2.default.createElement(_TodoListController2.default, null)
 				);
 			}
 		}]);
@@ -32702,7 +32702,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+		value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -32715,9 +32715,9 @@
 
 	var _itemApiService2 = _interopRequireDefault(_itemApiService);
 
-	var _Input = __webpack_require__(245);
+	var _ToDoListView = __webpack_require__(245);
 
-	var _Input2 = _interopRequireDefault(_Input);
+	var _ToDoListView2 = _interopRequireDefault(_ToDoListView);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32727,44 +32727,77 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var ToDoListView = function (_React$Component) {
-	    _inherits(ToDoListView, _React$Component);
+	var TodoListController = function (_React$Component) {
+		_inherits(TodoListController, _React$Component);
 
-	    function ToDoListView(props) {
-	        _classCallCheck(this, ToDoListView);
+		function TodoListController(props) {
+			_classCallCheck(this, TodoListController);
 
-	        return _possibleConstructorReturn(this, (ToDoListView.__proto__ || Object.getPrototypeOf(ToDoListView)).call(this, props));
-	    }
+			var _this = _possibleConstructorReturn(this, (TodoListController.__proto__ || Object.getPrototypeOf(TodoListController)).call(this, props));
 
-	    _createClass(ToDoListView, [{
-	        key: 'onKeyDown',
-	        value: function onKeyDown(event) {
-	            if (event.keyCode == 13) {
-	                _itemApiService2.default.createItem({
-	                    title: event.target.value
-	                });
-	            }
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var _this2 = this;
+			_this.state = {
+				todoItemList: []
+			};
+			_this.deleteItem = _this.deleteItem.bind(_this);
+			_this.createItem = _this.createItem.bind(_this);
+			return _this;
+		}
 
-	            return _react2.default.createElement(_Input2.default, {
-	                type: 'text',
-	                name: 'todo',
-	                placeholder: 'Type and hit Enter to add',
-	                onKeyDown: function onKeyDown(event) {
-	                    return _this2.onKeyDown(event);
-	                }
-	            });
-	        }
-	    }]);
+		_createClass(TodoListController, [{
+			key: 'componentWillMount',
+			value: function componentWillMount() {
+				this.loadItems();
+			}
+		}, {
+			key: 'loadItems',
+			value: function loadItems() {
+				var _this2 = this;
 
-	    return ToDoListView;
+				_itemApiService2.default.readItems().then(function (response) {
+					console.log('readItems');
+					_this2.setState({
+						todoItemList: response
+					});
+				});
+			}
+		}, {
+			key: 'createItem',
+			value: function createItem(item) {
+				var _this3 = this;
+
+				_itemApiService2.default.createItem(item).then(function (response) {
+					_this3.loadItems();
+				});
+			}
+		}, {
+			key: 'deleteItem',
+			value: function deleteItem(itemId) {
+				var _this4 = this;
+
+				_itemApiService2.default.deleteItem(itemId).then(function (response) {
+					console.log('deleteItem');
+					_this4.loadItems();
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(_ToDoListView2.default, {
+						todoItemList: this.state.todoItemList,
+						deleteItem: this.deleteItem,
+						createItem: this.createItem
+					})
+				);
+			}
+		}]);
+
+		return TodoListController;
 	}(_react2.default.Component);
 
-	exports.default = ToDoListView;
+	exports.default = TodoListController;
 
 /***/ },
 /* 243 */
@@ -32798,7 +32831,17 @@
 		_createClass(ItemApiService, [{
 			key: 'createItem',
 			value: function createItem(item) {
-				(0, _ajax2.default)().post(_config2.default.url + '/api/item', item);
+				return (0, _ajax2.default)().post(_config2.default.url + '/api/items', item);
+			}
+		}, {
+			key: 'readItems',
+			value: function readItems() {
+				return (0, _ajax2.default)().get(_config2.default.url + '/api/items');
+			}
+		}, {
+			key: 'deleteItem',
+			value: function deleteItem(itemId) {
+				return (0, _ajax2.default)().delete(_config2.default.url + '/api/items/' + itemId);
 			}
 		}]);
 
@@ -32825,7 +32868,120 @@
 /* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _itemApiService = __webpack_require__(243);
+
+	var _itemApiService2 = _interopRequireDefault(_itemApiService);
+
+	var _Input = __webpack_require__(246);
+
+	var _Input2 = _interopRequireDefault(_Input);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ToDoListView = function (_React$Component) {
+	    _inherits(ToDoListView, _React$Component);
+
+	    function ToDoListView(props) {
+	        _classCallCheck(this, ToDoListView);
+
+	        var _this = _possibleConstructorReturn(this, (ToDoListView.__proto__ || Object.getPrototypeOf(ToDoListView)).call(this, props));
+
+	        _this.onKeyDown = _this.onKeyDown.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(ToDoListView, [{
+	        key: 'onKeyDown',
+	        value: function onKeyDown(event) {
+	            if (event.keyCode == 13) {
+	                var item = event.target.value;
+	                this.props.createItem({ title: item });
+	                event.target.value = '';
+	            }
+	        }
+	    }, {
+	        key: 'renderTodoList',
+	        value: function renderTodoList() {
+	            var _this2 = this;
+
+	            return this.props.todoItemList.map(function (item) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { key: item._id, className: 'todo-block' },
+	                    _react2.default.createElement(_Input2.default, {
+	                        inputClass: 'todo-checkbox',
+	                        type: 'checkbox',
+	                        onClick: function onClick() {
+	                            return _this2.doneItemList(item.id);
+	                        }
+	                    }),
+	                    _react2.default.createElement(_Input2.default, {
+	                        inputClass: 'todo-item',
+	                        type: 'text',
+	                        value: item.title,
+	                        readOnly: true
+	                    }),
+	                    _react2.default.createElement(
+	                        'svg',
+	                        { viewBox: '0 0 24 24', className: 'delete-item', onClick: function onClick() {
+	                                return _this2.props.deleteItem(item._id);
+	                            }, xmlns: 'http://www.w3.org/2000/svg' },
+	                        _react2.default.createElement('path', { d: 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' }),
+	                        _react2.default.createElement('path', { d: 'M0 0h24v24H0z', fill: 'none' })
+	                    )
+	                );
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this3 = this;
+
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'todo' },
+	                _react2.default.createElement(_Input2.default, {
+	                    inputClass: 'todo-create',
+	                    type: 'text',
+	                    name: 'todo',
+	                    placeholder: 'Type and hit Enter to add',
+	                    onKeyDown: function onKeyDown(event) {
+	                        return _this3.onKeyDown(event);
+	                    }
+	                }),
+	                this.renderTodoList()
+	            );
+	        }
+	    }]);
+
+	    return ToDoListView;
+	}(_react2.default.Component);
+
+	exports.default = ToDoListView;
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -32855,15 +33011,17 @@
 	  }
 
 	  _createClass(Input, [{
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement("input", {
-	        className: "input",
+	      return _react2.default.createElement('input', {
+	        className: 'input ' + this.props.inputClass,
 	        type: this.props.type,
 	        name: this.props.name,
 	        value: this.props.value,
 	        placeholder: this.props.placeholder,
-	        onKeyDown: this.props.onKeyDown
+	        onKeyDown: this.props.onKeyDown,
+	        onClick: this.props.onClick,
+	        readOnly: this.props.readOnly
 	      });
 	    }
 	  }]);

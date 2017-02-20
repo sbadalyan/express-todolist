@@ -8,7 +8,7 @@ const viewService = require('./services/viewService');
 
 const app = express();
 
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const staticOptions = {
@@ -25,7 +25,43 @@ app.get('/', function(req, res){
 });
 
 
-app.post('/api/item', function(req, res){
-	itemApiController.createItem(req, res);
+app.post('/api/items', function(req, res){
+	const item = {
+		title: req.body.title
+	};
+	itemApiController.createItem(item).then(() => {
+		res.json({
+			status:'ok'
+		});
+	}).catch((error)=>{
+		console.log(error);
+		res.status(500);
+		res.json({
+			status:'error'
+		});
+	});
 });
+
+app.get('/api/items', function(req, res){
+	itemApiController.readItems().then((data)=>{
+		console.log(data);
+		res.json(data);
+	});
+});
+
+app.delete('/api/items/:id', function(req, res){
+	console.log(req.params.id);
+	itemApiController.deleteItem(req.params.id).then(() => {
+		res.json({
+			status:'ok'
+		});
+	}).catch((error)=>{
+		console.log(error);
+		res.status(500);
+		res.json({
+			status:'error'
+		});
+	});
+});
+
 app.listen(1111);

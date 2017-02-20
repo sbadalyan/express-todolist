@@ -1,2 +1,33 @@
+.todo {
+  width: 500px;
+  margin: 0 auto; }
+  .todo .todo-create {
+    width: 100%; }
+  .todo .todo-block {
+    margin-top: 10px;
+    display: flex;
+    box-shadow: 0;
+    transition: box-shadow 1s;
+    border: 1px solid #eee; }
+    .todo .todo-block:hover {
+      margin-top: 10px;
+      display: flex;
+      box-shadow: 0 0 3px #515151; }
+    .todo .todo-block .todo-item {
+      border: none;
+      flex: 20; }
+    .todo .todo-block .todo-checkbox {
+      flex: 1; }
+    .todo .todo-block .delete-item {
+      flex: 1;
+      cursor: pointer;
+      fill: "#000000";
+      height: 16px;
+      width: 16px; }
+  .todo .done-block {
+    margin: 50px 0px; }
+    .todo .done-block .done-label {
+      border-bottom: 2px solid red; }
+
 .input {
   padding: 5px; }

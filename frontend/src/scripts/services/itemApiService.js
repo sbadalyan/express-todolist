@@ -3,8 +3,15 @@ import ajax from '@fdaciuk/ajax';
 import config from '../config';
 
 class ItemApiService{
+	
 	createItem(item){
-		ajax().post(`${config.url}/api/item`, item);
+		return ajax().post(`${config.url}/api/items`, item);
+	}
+	readItems(){
+		return ajax().get(`${config.url}/api/items`);
+	}
+	deleteItem(itemId){
+		return ajax().delete(`${config.url}/api/items/${itemId}`)
 	}
 }
 
