@@ -32781,12 +32781,12 @@
 			}
 		}, {
 			key: 'updateItemStatus',
-			value: function updateItemStatus(itemId) {
+			value: function updateItemStatus(itemId, done) {
 				var _this5 = this;
 
-				var status = { status: 'done' };
-				_itemApiService2.default.updateItem(itemId, status).then(function (response) {
-					console.log('updateItemStatus');
+				_itemApiService2.default.updateItem(itemId, {
+					done: done
+				}).then(function (response) {
 					_this5.loadItems();
 				});
 			}
@@ -32835,6 +32835,12 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	var request = (0, _ajax2.default)({
+		headers: {
+			'content-type': 'application/json'
+		}
+	});
+
 	var ItemApiService = function () {
 		function ItemApiService() {
 			_classCallCheck(this, ItemApiService);
@@ -32843,22 +32849,22 @@
 		_createClass(ItemApiService, [{
 			key: 'createItem',
 			value: function createItem(item) {
-				return (0, _ajax2.default)().post(_config2.default.url + '/api/items', item);
+				return request.post(_config2.default.url + '/api/items', item);
 			}
 		}, {
 			key: 'readItems',
 			value: function readItems() {
-				return (0, _ajax2.default)().get(_config2.default.url + '/api/items');
+				return request.get(_config2.default.url + '/api/items');
 			}
 		}, {
 			key: 'deleteItem',
 			value: function deleteItem(itemId) {
-				return (0, _ajax2.default)().delete(_config2.default.url + '/api/items/' + itemId);
+				return request.delete(_config2.default.url + '/api/items/' + itemId);
 			}
 		}, {
 			key: 'updateItem',
 			value: function updateItem(itemId, data) {
-				return (0, _ajax2.default)().put(_config2.default.url + '/api/items/' + itemId, data);
+				return request.put(_config2.default.url + '/api/items/' + itemId, data);
 			}
 		}]);
 
@@ -32946,8 +32952,9 @@
 	                    _react2.default.createElement(_Input2.default, {
 	                        inputClass: 'todo-checkbox',
 	                        type: 'checkbox',
+	                        checked: item.done,
 	                        onClick: function onClick() {
-	                            return _this2.props.updateItemStatus(item._id);
+	                            return _this2.props.updateItemStatus(item._id, !item.done);
 	                        }
 	                    }),
 	                    _react2.default.createElement(_Input2.default, {

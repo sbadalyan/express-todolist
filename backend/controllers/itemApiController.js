@@ -14,6 +14,13 @@ class ItemApiController{
 			_id: mongo.ObjectId(itemId)
 		});
 	}
+	updateItem(itemId, data){
+		return dbService.items.update({
+			_id: mongo.ObjectId(itemId)
+		}, {
+			$set: data
+		});
+	}
 }
 
 module.exports = new ItemApiController();

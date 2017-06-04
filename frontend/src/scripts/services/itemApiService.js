@@ -2,19 +2,26 @@ import ajax from '@fdaciuk/ajax';
 
 import config from '../config';
 
+const request = ajax({
+	headers: {
+    	'content-type': 'application/json',
+    	
+    }
+});
+
 class ItemApiService{
 	
 	createItem(item){
-		return ajax().post(`${config.url}/api/items`, item);
+		return request.post(`${config.url}/api/items`, item);
 	}
 	readItems(){
-		return ajax().get(`${config.url}/api/items`);
+		return request.get(`${config.url}/api/items`);
 	}
 	deleteItem(itemId){
-		return ajax().delete(`${config.url}/api/items/${itemId}`)
+		return request.delete(`${config.url}/api/items/${itemId}`)
 	}
 	updateItem(itemId, data){
-		return ajax().put(`${config.url}/api/items/${itemId}`, data)
+		return request.put(`${config.url}/api/items/${itemId}`, data)
 	}
 }
 

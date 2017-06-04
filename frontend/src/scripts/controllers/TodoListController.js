@@ -36,10 +36,10 @@ export default class TodoListController extends React.Component {
 			this.loadItems();
 		});
 	}
-	updateItemStatus(itemId){
-		let status = {status: 'done'}
-		itemApiService.updateItem(itemId, status).then((response)=>{
-			console.log('updateItemStatus');
+	updateItemStatus(itemId, done){
+		itemApiService.updateItem(itemId, {
+			done: done
+		}).then((response)=>{
 			this.loadItems();
 		});
 	}

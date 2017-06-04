@@ -18,6 +18,7 @@ app.use('/static/styles', express.static(`${__dirname}/../frontend/dist/styles`,
 app.use('/static/scripts', express.static(`${__dirname}/../frontend/dist/scripts`, staticOptions));
 app.use('/static/images', express.static(`${__dirname}/../static/images`, staticOptions));
 
+
 app.get('/', function(req, res){
 	viewService.read('index').then((data)=>{
 		res.send(data);
@@ -65,9 +66,19 @@ app.delete('/api/items/:id', function(req, res){
 });
 app.put('/api/items/:id', function(req, res){
 	console.log(req.params.id);
-	console.log( req.body.data, 'data');
-	res.json({
+	console.log( req.body, 'data');
+	itemApiController.updateItem(req.params.id, {
+ 		done: req.body.done
+	}).then(() => {
+		res.json({
 			status:'ok'
+		});
+	}).catch((error)=>{
+		console.log(error);
+		res.status(500);
+		res.json({
+			status:'error'
+		});
 	});
 });
 
