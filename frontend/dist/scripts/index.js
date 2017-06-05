@@ -32836,9 +32836,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var request = (0, _ajax2.default)({
-		headers: {
-			'content-type': 'application/json'
-		}
+		headers: {}
 	});
 
 	var ItemApiService = function () {

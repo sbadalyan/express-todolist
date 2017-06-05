@@ -3,10 +3,7 @@ import ajax from '@fdaciuk/ajax';
 import config from '../config';
 
 const request = ajax({
-	headers: {
-    	'content-type': 'application/json',
-    	
-    }
+	headers: {}
 });
 
 class ItemApiService{
