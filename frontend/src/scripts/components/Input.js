@@ -12,6 +12,7 @@ export default class Input extends React.Component{
             onKeyDown={this.props.onKeyDown}
             onClick={this.props.onClick}
             readOnly = {this.props.readOnly}
+            checked= {this.props.checked}
           />
         );
     }

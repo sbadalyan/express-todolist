@@ -7,7 +7,7 @@ class ItemApiController{
 		return dbService.items.insert(item);
 	}
 	readItems(){
-		return dbService.items.find().toArray();
+		return dbService.items.find().sort( { title: 1 } ).toArray();
 	}
 	deleteItem(itemId){
 		return dbService.items.remove({

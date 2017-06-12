@@ -32781,9 +32781,10 @@
 			}
 		}, {
 			key: 'updateItemStatus',
-			value: function updateItemStatus(itemId, done) {
+			value: function updateItemStatus(itemId, data) {
 				var _this5 = this;
 
+				var done = data === 'true' ? 'false' : 'true';
 				_itemApiService2.default.updateItem(itemId, {
 					done: done
 				}).then(function (response) {
@@ -32944,15 +32945,16 @@
 	            var _this2 = this;
 
 	            return this.props.todoItemList.map(function (item) {
+	                console.log(item, 'asdasdasd');
 	                return _react2.default.createElement(
 	                    'div',
 	                    { key: item._id, className: 'todo-block' },
 	                    _react2.default.createElement(_Input2.default, {
 	                        inputClass: 'todo-checkbox',
 	                        type: 'checkbox',
-	                        checked: item.done,
+	                        checked: item.done === 'true',
 	                        onClick: function onClick() {
-	                            return _this2.props.updateItemStatus(item._id, !item.done);
+	                            return _this2.props.updateItemStatus(item._id, item.done);
 	                        }
 	                    }),
 	                    _react2.default.createElement(_Input2.default, {
@@ -33043,7 +33045,8 @@
 	        placeholder: this.props.placeholder,
 	        onKeyDown: this.props.onKeyDown,
 	        onClick: this.props.onClick,
-	        readOnly: this.props.readOnly
+	        readOnly: this.props.readOnly,
+	        checked: this.props.checked
 	      });
 	    }
 	  }]);

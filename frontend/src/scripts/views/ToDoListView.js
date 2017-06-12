@@ -20,13 +20,14 @@ export default class ToDoListView extends React.Component{
     }
     renderTodoList(){
         return this.props.todoItemList.map(item=>{
+            console.log(item, 'asdasdasd');
             return(
                 <div key={item._id} className="todo-block">
                     <Input
                         inputClass="todo-checkbox"
                         type="checkbox"
-                        checked={item.done}
-                        onClick = {()=>this.props.updateItemStatus(item._id, !item.done)}
+                        checked={item.done==='true'}
+                        onClick = {()=>this.props.updateItemStatus(item._id, item.done)}
                     />
                     <Input
                         inputClass="todo-item"

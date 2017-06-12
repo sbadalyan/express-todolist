@@ -28,7 +28,8 @@ app.get('/', function(req, res){
 
 app.post('/api/items', function(req, res){
 	const item = {
-		title: req.body.title
+		title: req.body.title,
+		done: 'false'
 	};
 	itemApiController.createItem(item).then(() => {
 		res.json({

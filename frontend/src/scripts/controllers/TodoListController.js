@@ -36,7 +36,8 @@ export default class TodoListController extends React.Component {
 			this.loadItems();
 		});
 	}
-	updateItemStatus(itemId, done){
+	updateItemStatus(itemId, data){
+		let done =(data==='true')?'false':'true';
 		itemApiService.updateItem(itemId, {
 			done: done
 		}).then((response)=>{
